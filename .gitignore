@@ -1,0 +1,3 @@
+*.pickle 
+*.log
+__pycache__
