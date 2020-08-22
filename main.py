@@ -5,9 +5,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import creds
 
-mail_address = ''
-password = ''
+mail_address, password = creds.getCreds()
+print(mail_address, password)
+
 
 ENTER_MAIL = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div/div[1]/div/div[1]/input'
 ENTER_PASSWD = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div/div/div[1]/div/div[1]/input'
@@ -52,13 +54,11 @@ driver.get("https://meet.google.com/new")
 
 mute = WebDriverWait(driver, 100).until(
     EC.element_to_be_clickable((By.XPATH, MUTE))).click()
-# driver.find_element_by_xpath(MUTE).click()
 print(mute)
 print('Deafned the bitch ! ! !')
 
 blind = WebDriverWait(driver, 50).until(
     EC.element_to_be_clickable((By.XPATH, BLIND))).click()
-# driver.find_element_by_xpath(BLIND).click()
 print(blind)
 print("Made Google BLIND ! ! !")
 
@@ -66,12 +66,19 @@ MEETING_ID = driver.current_url
 
 joinNow = WebDriverWait(driver, 50).until(
     EC.element_to_be_clickable((By.XPATH, JOIN_NOW))).click()
-# driver.find_element_by_xpath(JOIN_NOW).click()
 print(joinNow)
 print(f"DID U JOIN to {MEETING_ID}???")
 
 sharePrompt = WebDriverWait(driver, 50).until(
     EC.element_to_be_clickable((By.XPATH, SHARE_PROMPT))).click()
-# driver.find_element_by_xpath(SHARE_PROMT).click()
 print(sharePrompt)
 print("Removed irritation")
+
+ADMIT = '/html/body/div[1]/div[3]/div/div[2]/div[3]/div[2]'
+NAME = '/html/body/div[1]/div[3]/div/div[2]/span/div/'
+
+while True:
+    print('checking')
+    sleep(1)
+    WebDriverWait(driver, 50).until(
+        EC.element_to_be_clickable((By.XPATH, ADMIT))).click()
