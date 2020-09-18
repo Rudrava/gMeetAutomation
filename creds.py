@@ -5,6 +5,7 @@ import secure
 def getCreds():
     data = {}
     try:
+        # print('trying')
         with open("creds.pickle", "rb") as dataLoad:
             data = pickle.load(dataLoad)
 
@@ -18,4 +19,4 @@ def getCreds():
         return data['email'], data['password']
 
 
-# print(getCreds())
+print(getCreds())

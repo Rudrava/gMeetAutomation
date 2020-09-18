@@ -15,12 +15,16 @@ ENTER_MAIL = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[
 ENTER_PASSWD = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div/div/div[1]/div/div[1]/input'
 NEXT = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button'
 LOGIN = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button/div[2]'
-BLIND = '/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[1]/div[1]/div[3]/div[2]/div/div'
-MUTE = '/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[1]/div[1]/div[3]/div[1]/div/div/div'
-JOIN_NOW = '/html/body/div[1]/c-wiz/div/div/div[4]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div[1]'
-SHARE_PROMPT = '/html/body/div[1]/div[3]/div/div[2]/div[2]/div[3]/div'
-MEETING_ID = ""
 
+MUTE = '/html/body/div[1]/c-wiz/div/div/div[5]/div[3]/div/div[2]/div/div/div[1]/div/div[4]/div[1]/div/div/div'
+BLIND = '/html/body/div[1]/c-wiz/div/div/div[5]/div[3]/div/div[2]/div/div/div[1]/div/div[4]/div[2]/div/div'
+
+
+JOIN_NOW = '//*[@id="yDmH0d"]/c-wiz/div/div/div[5]/div[3]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div[1]/span/span'
+SHARE_PROMPT = '/html/body/div[1]/div[3]/div/div[2]/div[2]/div[3]/div'
+NAME = "/html/body/div[1]/div[3]/div/div[2]/span/div/text()"
+MEETING_ID = ""
+   
 
 chrome_options = Options()
 chrome_options.add_argument("--use-fake-ui-for-media-stream")
@@ -29,7 +33,7 @@ chrome_options.add_argument("--disable-notifications")
 CHROME_DRIVER = "./chromedriver.exe"
 driver = webdriver.Chrome(CHROME_DRIVER, chrome_options=chrome_options)
 
-url = 'https://www.google.com/accounts/Login?hl=en&continue=http://www.google.co.in/'
+url = 'https://www.google.com/accounts/Login?hl=en&continue=https://meet.google.com/new'
 driver.get(url)
 
 sleep(5)
@@ -37,9 +41,9 @@ sleep(5)
 WebDriverWait(driver, 50).until(EC.element_to_be_clickable(
     (By.XPATH, ENTER_MAIL))).send_keys(mail_address)
 
-mail = WebDriverWait(driver, 50).until(
+WebDriverWait(driver, 50).until(
     EC.element_to_be_clickable((By.XPATH, NEXT))).click()
-print(mail)
+
 
 WebDriverWait(driver, 50).until(EC.element_to_be_clickable(
     (By.XPATH, ENTER_PASSWD))).send_keys(password)
@@ -49,17 +53,15 @@ WebDriverWait(driver, 50).until(
 
 
 sleep(5)
-driver.get("https://meet.google.com/new")
+# driver.get("https://meet.google.com/new")
 
 
-mute = WebDriverWait(driver, 100).until(
+WebDriverWait(driver, 100).until(
     EC.element_to_be_clickable((By.XPATH, MUTE))).click()
-print(mute)
 print('Deafned the bitch ! ! !')
 
-blind = WebDriverWait(driver, 50).until(
+WebDriverWait(driver, 50).until(
     EC.element_to_be_clickable((By.XPATH, BLIND))).click()
-print(blind)
 print("Made Google BLIND ! ! !")
 
 MEETING_ID = driver.current_url
@@ -74,11 +76,21 @@ sharePrompt = WebDriverWait(driver, 50).until(
 print(sharePrompt)
 print("Removed irritation")
 
-ADMIT = '/html/body/div[1]/div[3]/div/div[2]/div[3]/div[2]'
-NAME = '/html/body/div[1]/div[3]/div/div[2]/span/div/'
+ADMIT = '/html/body/div[1]/div[3]/div/div[2]/div[3]/div[3]/span/span'
+
 
 while True:
-    print('checking')
+    # print('checking')
     sleep(1)
-    WebDriverWait(driver, 50).until(
-        EC.element_to_be_clickable((By.XPATH, ADMIT))).click()
+    x = 100
+    try:
+        connectingParticipant = driver.find_element_by_xpath('//*[@id="yDmH0d"]/div[3]/div/div[2]/span').text
+        print(connectingParticipant.strip("'"), " has joined the meeting")
+        WebDriverWait(driver, x).until(
+            EC.element_to_be_clickable((By.XPATH, ADMIT))).click()
+    except:
+        print('Listening . . .')
+
+    finally:
+        pass
+

@@ -2,6 +2,7 @@ import pickle
 
 
 def getCredentials():
+    print('here')
     eMail = input("Enter Your Email\n>>>")
     print()
     print()
@@ -18,3 +19,7 @@ def pickleOutData():
 
     with open("creds.pickle", "wb") as file:
         pickle.dump(data, file)
+
+
+if __name__ == "__main__":
+    pickleOutData()
